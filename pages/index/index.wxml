@@ -1,23 +1,36 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar" bindtap="bindViewTap">
-        <open-data type="userAvatarUrl"></open-data>
-      </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+ 
+
+  <view class="input-section">
+    <view class="input-time">
+      <input type="number" value="{{inputValue}}" maxlength="6" bindinput="Focus" auto-focus placeholder="输入一个时间"/>
+    </view>
+    <!-- <view class="tips3" hidden="{{isReEnter}}">，请重新输入</view> -->
+    <view class="page-pciker">
+      <picker bindchange="bindPickerChange" value="{{index}}" range="{{timeArray}}">
+        {{timeArray[index]}}
+      </picker>
+    </view>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <view class="start-button">
+      <button type="primary" bindtap="bindKeyInput">开始</button>
   </view>
+
+  <view class="shortcut">
+    <view class="example" bindtap="bindshortcut" data-field="60000">60 秒</view>
+    <view class="example" bindtap="bindshortcut" data-field="120000">120 秒</view>
+    <view class="example" bindtap="bindshortcut" data-field="1800000">180 秒</view>
+  </view>
+  <view class="shortcut">
+    <view class="example" bindtap="bindshortcut" data-field="300000">5 分钟</view>
+    <view class="example" bindtap="bindshortcut" data-field="600000">10 分钟</view>
+    <view class="example" bindtap="bindshortcut" data-field="900000">15 分钟</view>
+  </view>
+  <view class="shortcut">
+    <view class="example" bindtap="bindshortcut" data-field="3600000">1 小时</view>
+    <view class="example" bindtap="bindshortcut" data-field="7200000">2 小时</view>
+    <view class="example" bindtap="bindshortcut" data-field="14400000">4 小时</view>
+  </view>
+
 </view>
