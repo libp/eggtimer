@@ -1,6 +1,14 @@
 <!--logs.wxml-->
-<view class="container log-list">
-  <block wx:for="{{logs}}" wx:key="timeStamp" wx:for-item="log">
-    <text class="log-item">{{index + 1}}. {{log.date}}</text>
-  </block>
+<view class="container">
+    <view id="wrapper">
+      <view id="progress"></view>
+      <view id="static" style="width:{{Width}}px;height:{{Height}}px;"></view>
+    </view>
+    <view id="textWrapper">
+      <view id="progressText">53 minutes 22 seconds </view>
+    </view>
+    
+    <view>
+      <audio id="beepbeep" wx:if="{{false}}" src="/pages/logs/beepbeep.mp3">11 </audio>
+    </view>
 </view>
