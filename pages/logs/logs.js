@@ -1,6 +1,6 @@
 // logs.js
-const Egg = require('../../utils/egg.js')
-const Time = require('../../utils/time.js')
+var Egg = require('../../utils/egg.js')
+var Time = require('../../utils/time.js')
 
 Page({
   data: {
@@ -22,8 +22,10 @@ Page({
     // 读取当前页面信息
     console.log(Egg)
     console.log(Time)
+    console.log(Egg.name)
 
     Egg.startTime = (new Date()).getTime();
+    Egg.startTime2 = (new Date()).getTime();
     var duration = parseInt(res.timer)
     Egg.endTime = Egg.startTime + duration
     console.log(Egg)

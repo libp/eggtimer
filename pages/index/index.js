@@ -11,8 +11,9 @@ Page({
   },
   Focus(e){
     console.log(e.detail.value);
+    
     this.setData({
-      inputValue:e.detail.value,
+      inputValue:e.detail.value.replace(/[^\d]/g,''),
     })
     if(e.detail.value.length==6){
       console.log("超过最大输入长度： " + e.detail.value.length);
@@ -26,12 +27,13 @@ Page({
   bindPickerChange: function(e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      index: e.detail.value
+      index: parseInt(e.detail.value)
     })
   },
   bindKeyInput: function() {
     var time = this.data.inputValue;
     var timescale = this.data.index
+
     switch ( timescale ) {
       case 1:
         time = time * 60000;

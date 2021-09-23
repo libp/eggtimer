@@ -6,7 +6,7 @@
     <view class="input-time">
       <input type="number" value="{{inputValue}}" maxlength="6" bindinput="Focus" auto-focus placeholder="输入一个时间"/>
     </view>
-    <!-- <view class="tips3" hidden="{{isReEnter}}">，请重新输入</view> -->
+    <view class="tips3" hidden="{{isReEnter}}">请重新输入正确的时间</view>
     <view class="page-pciker">
       <picker bindchange="bindPickerChange" value="{{index}}" range="{{timeArray}}">
         {{timeArray[index]}}
