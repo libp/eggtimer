@@ -21,8 +21,10 @@ Page({
         })
       }
     })
-    that.audioCtx = wx.createAudioContext('beepbeep')
-    // that.audioCtx.play()
+    // that.audioCtx = wx.createAudioContext('beepbeep')
+    that.audioCtx = wx.createInnerAudioContext();
+    that.audioCtx.src = "/pages/logs/beepbeep.mp3"
+    
     Egg.startTime = (new Date()).getTime();
     var duration = parseInt(res.timer);
     Egg.endTime = Egg.startTime + duration;

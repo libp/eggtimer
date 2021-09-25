@@ -9,8 +9,5 @@
       <view id="progressText">{{text}}</view>
     </view>
     
-    <view>
-      <audio id="beepbeep" hidden="{{false}}" src="/pages/logs/beepbeep.mp3"></audio>
-    </view>
 
 </view>
