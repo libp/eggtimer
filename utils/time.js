@@ -22,8 +22,8 @@ var Time = {
     remainingMilliseconds: 0,
 
     calcTime: function (startTime, endTime) {
-        startDate = new Date(startTime);
-        endDate = new Date(endTime);
+        var startDate = new Date(startTime);
+        var endDate = new Date(endTime);
         var diff = endDate.getTime() - startDate.getTime();
 
         Time.totalMilliseconds = diff / Time.MILLISECONDS;

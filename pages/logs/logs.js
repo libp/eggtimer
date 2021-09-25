@@ -1,12 +1,13 @@
-// logs.js
 var Egg = require('../../utils/egg.js')
-var Time = require('../../utils/time.js')
+var Egg = Egg.Egg
 
 Page({
   data: {
     logs: [],
     Width:100,
-    Height:100
+    Height:100,
+    progressWidth:100,
+    progressHeight:0
   },
   onLoad(res) {
     var that = this;
@@ -14,22 +15,29 @@ Page({
       success (res) {
         that.setData({
           Width: res.windowWidth-20,
-          Height: res.windowHeight-20
+          Height: res.windowHeight-20,
+          progressWidth: res.windowWidth,
+          progressHeight: res.windowHeight
         })
       }
     })
-
-    // 读取当前页面信息
-    console.log(Egg)
-    console.log(Time)
-    console.log(Egg.name)
-
+    that.audioCtx = wx.createAudioContext('beepbeep')
+    // that.audioCtx.play()
     Egg.startTime = (new Date()).getTime();
-    Egg.startTime2 = (new Date()).getTime();
-    var duration = parseInt(res.timer)
-    Egg.endTime = Egg.startTime + duration
-    console.log(Egg)
-    Egg.start();
-
-  }
+    var duration = parseInt(res.timer);
+    Egg.endTime = Egg.startTime + duration;
+    Egg.ticker = null;
+    Egg.start.apply(this,[]);
+  },
+  onUnload() {
+    // wx.reLaunch({
+    //   url: 'index',
+    // })
+    // wx.redirectTo({
+    //   url: 'index',
+    // })
+  },
+  onShow() {
+    // console.log(getCurrentPages());
+  },
 })

@@ -1,14 +1,16 @@
 <!--logs.wxml-->
 <view class="container">
     <view id="wrapper">
-      <view id="progress"></view>
+      <view id="progress" style="width:{{progressWidth}}px;height:{{progressHeight}}px;"></view>
       <view id="static" style="width:{{Width}}px;height:{{Height}}px;"></view>
     </view>
     <view id="textWrapper">
-      <view id="progressText">53 minutes 22 seconds </view>
+      <!-- <view id="progressText">53 minutes 22 seconds </view> -->
+      <view id="progressText">{{text}}</view>
     </view>
     
     <view>
-      <audio id="beepbeep" wx:if="{{false}}" src="/pages/logs/beepbeep.mp3">11 </audio>
+      <audio id="beepbeep" hidden="{{false}}" src="/pages/logs/beepbeep.mp3"></audio>
     </view>
+
 </view>

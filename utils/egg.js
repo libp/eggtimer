@@ -1,3 +1,5 @@
+var Time = require('../utils/time.js')
+var Time = Time.Time
 var Egg = {
     name: "EggTimer",
     defaultText: "",
@@ -8,7 +10,6 @@ var Egg = {
     startTime: 0,
     endTime: 0,
     totalTime: 0,
-    parseError: "",
     progressBar: null,
     progressText: null,
     staticArea: null,
@@ -20,36 +21,36 @@ var Egg = {
     volume: 1,
     canAlert: true,
     start: function() {
-        if (Egg.parseError !== "" && Egg.parseError !== "none") {
-            Egg.progressText.html(Egg.defaultText);
-            Egg.updateText(Egg.defaultText);
-            return;
-        }
-        Egg.initializeTimer(Egg.startTime, Egg.endTime, Egg.label);
+        var that = this;
+        Egg.initializeTimer(Egg.startTime, Egg.endTime, Egg.label,that);
     },
-    initializeTimer : function(startTime, endTime, label) {
-        console.log(new Date())
+    initializeTimer : function(startTime, endTime, label,that) {
         Egg.endTime = endTime;
         Egg.startTime = startTime;
         Egg.label = label;
         Egg.totalTime = Egg.endTime - Egg.startTime;
-        console.log(Egg.totalTime)
         Egg.endDate = new Date(new Date().getTime() + Egg.totalTime);
-        console.log((Egg.endDate).getTime())
         Egg.currDate = new Date();
         Egg.expiredMessage = Egg.expiredMessage || "Time Expired" + (label ? ": " : "!") + label;
-        Egg.update();
+        Egg.update(that);
         if (!Egg.ticker) {
-            Egg.ticker = setInterval(Egg.update, 1000 / 4);
+            // Egg.ticker = setInterval(Egg.update(), 1000 / 4);
+            Egg.ticker = setInterval(Egg.update, 1000 / 4, that);
+            // Egg.ticker = setInterval(
+            //     function () {
+            //         Egg.update(that)
+            //     }
+            // , 1000/4);
         }
     },
-    update: function(){
+    update: function(that){
         Time.calcTime(Egg.currDate.getTime(), Egg.endDate.getTime());
-        Egg.updateParts(Time);
+        Egg.updateParts(Time,that);
     },
-    updateParts: function(Time) {
+    updateParts: function(Time,that) {
+        var that = that;
         if (Time.totalSeconds < 0) {
-            Egg.onTimeComplete();
+            Egg.onTimeComplete(that);
             return;
         }
         var clockTime = [];
@@ -105,51 +106,32 @@ var Egg = {
         var timeText = slabel + yearText + monthText + 
             dayText + hourText + minText + secText;
 
-        Egg.updateTitle(clockTime.join(":") + (Egg.label && Egg.label !== "" ? " : " + Egg.label : ""));
-        Egg.updateText(timeText);
+        Egg.updateText(timeText,that);
 
         Egg.progress = ((Egg.totalTime - Time.totalMilliseconds) / Egg.totalTime);
-        Egg.updateProgressBar();
+        Egg.updateProgressBar(that);
 
         Egg.currDate = new Date();
     },
-    updateTitle : function (title) {
-        document.title = title + " - E.ggtimer";
+    updateProgressBar : function (that) {
+        that.setData({
+            progressWidth: (that.data.Width +20) * Egg.progress
+        })        
     },
-    updateProgressBar : function () {
-        var wWidth = $(window).width();
-        var wHeight = $(window).height();
-        if (Egg.progressBar) {
-            Egg.progressBar.width(wWidth * Egg.progress);
+    updateText : function (text,that) {
+        if (text) {
+            that.setData({
+                text:text
+            })
         }
     },
-    updateText : function (text) {
-        if (text) Egg.progressText.html(text)
-    },
-    onTimeComplete: function () {
-        var beepFinishedPromise = null;
+    onTimeComplete: function (that) {
         Egg.progress = 1;
-        Egg.updateProgressBar();
-
-        if (Egg.beep && Egg.beep.play) {
-            Egg.beep.volume = Egg.volume;
-            beepFinishedPromise = Egg.beep.play();
-        }
-        console.log(beepFinishedPromise)
+        Egg.updateProgressBar(that);
+        that.audioCtx.play()
         clearInterval(Egg.ticker);
-        Egg.updateTitle(Egg.expiredMessage);
-        Egg.updateText(Egg.expiredMessage);
-        if (beepFinishedPromise && (typeof beepFinishedPromise.then === 'function')) {
-            beepFinishedPromise.then(Egg.showAlert);
-        } else {
-            Egg.showAlert();
-        }
+        Egg.updateText(Egg.expiredMessage,that);
     },
-    showAlert:function () {
-        if (Egg.canAlert) {
-            alert(Egg.expiredMessage);
-        }
-    }
 
 };
 function getSModifier(value) {
@@ -179,6 +161,7 @@ function getTimeText(time, label) {
     return timeText;
 }
 
+
 module.exports = {
-    Egg
+    Egg:Egg
 }

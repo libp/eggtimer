@@ -57,4 +57,8 @@ Page({
   },
   onLoad() {
   },
+  onShow() {
+    // console.log(getCurrentPages());
+  },
+
 })
