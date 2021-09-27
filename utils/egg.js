@@ -2,24 +2,15 @@ var Time = require('../utils/time.js')
 var Time = Time.Time
 var Egg = {
     name: "EggTimer",
-    defaultText: "",
     expiredMessage: "",
-    title: "",
     label: "",
     progress: 0,
     startTime: 0,
     endTime: 0,
     totalTime: 0,
-    progressBar: null,
-    progressText: null,
-    staticArea: null,
-    beep: null,
     currDate: null,
     endDate: null,
     ticker: null,
-    startButton: null,
-    volume: 1,
-    canAlert: true,
     start: function() {
         var that = this;
         Egg.initializeTimer(Egg.startTime, Egg.endTime, Egg.label,that);

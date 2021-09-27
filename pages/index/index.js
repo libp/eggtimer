@@ -60,5 +60,7 @@ Page({
   onShow() {
     // console.log(getCurrentPages());
   },
+  onShareAppMessage() {
+  }
 
 })

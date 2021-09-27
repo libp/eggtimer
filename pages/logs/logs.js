@@ -7,7 +7,8 @@ Page({
     Width:100,
     Height:100,
     progressWidth:100,
-    progressHeight:0
+    progressHeight:0,
+    duration:100
   },
   onLoad(res) {
     var that = this;
@@ -26,12 +27,15 @@ Page({
     that.audioCtx.src = "/pages/logs/beepbeep.mp3"
     
     Egg.startTime = (new Date()).getTime();
-    var duration = parseInt(res.timer);
-    Egg.endTime = Egg.startTime + duration;
-    Egg.ticker = null;
+    that.setData({
+      duration: parseInt(res.timer)
+    })
+    Egg.endTime = Egg.startTime + that.data.duration;
     Egg.start.apply(this,[]);
   },
   onUnload() {
+    clearInterval(Egg.ticker);
+    Egg.ticker = null;
     // wx.reLaunch({
     //   url: 'index',
     // })
@@ -42,4 +46,10 @@ Page({
   onShow() {
     // console.log(getCurrentPages());
   },
+  onShareAppMessage() {
+    return {
+      title: '倒计时 eggtimer',
+      path: '/pages/logs/logs'+'?timer='+this.data.duration
+    }
+  }
 })
